@@ -1,0 +1,102 @@
+/* le contenu fait 90% de la largeur du corp de la page */
+#contenu {
+	width: 90%;
+	margin: auto;
+}
+
+/* si la page fait plus de 550 pixels de large, le contenu en fait 500 */
+@media (min-width: 550px) {
+	#contenu { width: 500px }
+}
+
+/* element de la liste */
+.liste-element {
+	padding: 20px;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+
+/* fond rouge si fait, vert si à faire */
+.fait {
+	background-color: #fb9a99
+}
+.a-faire {
+	background-color: #b2df8a
+}
+
+
+/* table pour les infos */
+.liste-element-info {
+	display: table;
+	width: 100%;
+}
+
+/* cellules de la table info */
+.liste-element-texte, .liste-element-modif, .liste-element-statut {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/* première cellule de la table info */
+.liste-element-texte {
+	width: 80%;
+	padding: 2px;
+	overflow: scroll;
+}
+
+/* les deux autres cellules de la table info */
+.liste-element-modif, .liste-element-statut {
+	width: 10%;
+}
+
+/* table pour element en cours de mise à jour */
+.liste-element-maj {
+	margin-top: 20px;
+	display: table;
+	width: 100%;
+}
+
+/* cellules de la table de mise à jour */
+.liste-element-maj-input, .liste-element-maj-input-bouton {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/* première cellule de la table de mise à jour */
+.liste-element-maj-input {
+	width: 80%;
+}
+
+/* deuxième cellule de la table de mise à jour */
+.liste-element-maj-input-bouton {
+	width: 20%;
+}
+
+/* table ajouter à faire */
+.ajouter {
+	display: table;
+	width: 100%;
+}
+
+/* cellules de la table ajouter */
+.ajouter-input, .ajouter-bouton {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/* première cellule de la table ajouter */
+.ajouter-input {
+	width: 80%;
+}
+
+/* deuxième cellule de la table ajouter */
+.ajouter-bouton {
+	width: 20%;
+	text-align: center
+}
+
+/* aérer ajouter et supprimer-fait */
+.ajouter, #supprimer-fait {
+	margin-top: 30px;
+}
+
