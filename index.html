@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Tutoriel-fullstack-js-2-vanilla-js : Tutoriel Fullstack JavaScript - Chapitre 2 - Vanilla JS">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Tutoriel-fullstack-js-2-vanilla-js</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/idris-maps/tutoriel-fullstack-js-2-vanilla-js">View on GitHub</a>
+
+          <h1 id="project_title">Tutoriel-fullstack-js-2-vanilla-js</h1>
+          <h2 id="project_tagline">Tutoriel Fullstack JavaScript - Chapitre 2 - Vanilla JS</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/idris-maps/tutoriel-fullstack-js-2-vanilla-js/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/idris-maps/tutoriel-fullstack-js-2-vanilla-js/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="vanilla-js" class="anchor" href="#vanilla-js" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>"Vanilla" JS</h1>
+
+<p>Le javascript "vanilla" est une manière de désigner le javascript "pure", c'est à dire sans utiliser de scripts externes. On écrit tout le code soi-même sans avoir recours à des librairies ou "framework" pour se faciliter la tâche. L'avantage principal, et c'est la raison pour laquelle nous commençons avec ça, est que vous savez exactement ce qui se passe. Il n'y a pas de magie. Par contre il faut écrire un peu plus de code...</p>
+
+<h2>
+<a id="mise-en-place" class="anchor" href="#mise-en-place" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mise en place</h2>
+
+<p>Créez un nouveau dossier (je l'appelle <code>2.vanilla</code>) pour le projet et à l'intérieur de celui-ci un dossier <code>public</code> ou nous mettons les fichiers <code>style.css</code> et <code>index.html</code> créés dans le chapitre précèdant.</p>
+
+<p>Ouvrez <code>index.html</code>, supprimez le contenu de la balise <code>&lt;div id="liste"&gt;</code>, ajoutez une balise<code>&lt;script src="script.js"&gt;&lt;/script&gt;</code> avant la fin du corp du document et changez le titre de la balise <code>&lt;title&gt;</code>.</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+ &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"/&gt;
+  &lt;title&gt;Vanilla&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;div id="contenu"&gt;
+ &lt;h1&gt;À faire&lt;/h1&gt;
+ &lt;div id="liste"&gt;&lt;/div&gt;
+ &lt;div id="formulaire"&gt;
+  &lt;div class="ajouter"&gt;
+   &lt;div class="ajouter-input"&gt;
+    &lt;input id="ajouter-input" class="form-control" placeholder="À faire" type="text"&gt;
+   &lt;/div&gt;
+   &lt;div class="ajouter-bouton"&gt;
+    &lt;button id="ajouter-bouton" class="btn btn-primary"&gt;Ajouter&lt;/button&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id="supprimer-fait"&gt;
+   &lt;button id="supprimer-fait-bouton" class="btn btn-danger"&gt;Supprimer ce qui a été fait&lt;/button&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+&lt;script src="script.js"&gt;&lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Dans un terminal, naviguez jusqu'au dossier de votre projet et initialisez NPM</p>
+
+<pre><code>$ cd ~/Desktop/2.vanilla
+$ npm init
+</code></pre>
+
+<p>Un fichier <code>package.json</code> sera créé. Ouvrez le et ajoutez un script <code>build</code> pour créer <code>public/script.js</code> et le minifier. Pour cette opération <code>browserify</code> et <code>minify</code> doivent avoir été installés globalement. Voir l'<a href="link_to_do">introduction</a> de ce cette série.</p>
+
+<pre><code>{
+ "name": "2.vanilla",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "scripts": {
+  "test": "echo \"Error: no test specified\" &amp;&amp; exit 1",
+  "build": "browserify main.js -o public/script.js | minify public/script.js -o public/script.js"
+ },
+ "author": "",
+ "license": "ISC"
+}
+</code></pre>
+
+<p><code>browserify</code> crée le fichier <code>public/script.js</code> contenant <code>main.js</code> et toutes ses dépendences. <code>minify</code> comme son nom l'indique le minifie. <code>public/script.js</code> est maintenant presque illisible mais se chargera plus rapidement.</p>
+
+<p>Créez un fichier <code>main.js</code> et un dossier <code>lib</code> à la racine de votre projet. Votre dossier doit maintenant avoir cette structure:</p>
+
+<pre><code>vanilla
+ -lib
+ -public
+  index.html
+  style.css
+ main.js
+ package.json
+</code></pre>
+
+<h2>
+<a id="le-modèle" class="anchor" href="#le-mod%C3%A8le" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Le modèle</h2>
+
+<p>Dans le dossier <code>lib</code>, créez un fichier <code>Modele-a-faire.js</code>.</p>
+
+<p>Il est commun de nommer les fonctions "constructeurs" (plus d'infos <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function">ici</a>) avec une majuscule.</p>
+
+<p>Ouvrez le fichier, créez un module et liez le contexte <code>this</code> à une variable <code>ctx</code>. Comme le contexte peut changer à l'intérieur d'une autre fonction, il vaut mieux le lier à une variable plutôt qu'utiliser <code>this</code> qui peut soudain se réferer à un autre contexte.</p>
+
+<pre><code>module.exports = function() {
+ var ctx = this
+}
+</code></pre>
+
+<p>Les choses à faire seront contenues dans un dictionnaire <code>data</code>. Nous en ajoutons déjà deux: "manger" et "dormir". On va dire que "manger" c'est fait et que "dormir" reste à faire.</p>
+
+<pre><code>module.exports = function() {
+ var ctx = this
+ ctx.data = [
+  {text: "Manger", fait: true},
+  {text: "Dormir", fait: false}
+ ]
+}
+</code></pre>
+
+<p>Nous allons maintenant ajouter quelques méthodes pour modifier le dictionnaire.</p>
+
+<h3>
+<a id="ajouter-quelque-chose-à-faire" class="anchor" href="#ajouter-quelque-chose-%C3%A0-faire" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ajouter quelque chose à faire</h3>
+
+<pre><code>ctx.ajouter = function(text) {
+ ctx.data.push({text: text, fait: false})
+}
+</code></pre>
+
+<p>La fonction <code>.ajouter()</code> prends une valeur <code>text</code> et ajoute un objet au dictionnaire. Par défaut, on va dire que ce n'est pas encore fait. Sinon il n'y a aucune raison de l'ajouter.</p>
+
+<h3>
+<a id="basculer-fait" class="anchor" href="#basculer-fait" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basculer fait</h3>
+
+<p>La clé <code>fait</code> des objets du dictionnaire est un booléen qui est soit <code>true</code> (vrai), soit <code>false</code> (faux). Nous allons créer une fonction qui prends l'<code>index</code> de l'object dans le dictionnaire et qui changera la clé <code>fait</code> de l'objet en question.</p>
+
+<pre><code>ctx.basculerFait = function(index) {
+ if(ctx.data[index].fait) { ctx.data[index].fait = false }
+ else { ctx.data[index].fait = true }
+}
+</code></pre>
+
+<h3>
+<a id="mettre-à-jour" class="anchor" href="#mettre-%C3%A0-jour" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mettre à jour</h3>
+
+<p>Nous voulons pouvoir changer le contenu du texte d'un objet. Pour cela nous créons une fonction qui prends l'<code>index</code> et le nouveau <code>text</code>.</p>
+
+<pre><code>ctx.mettreAJour = function(index, text) {
+ ctx.data[index].text = text
+}
+</code></pre>
+
+<h3>
+<a id="supprimer-fait" class="anchor" href="#supprimer-fait" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supprimer fait</h3>
+
+<p>Nous voulons également pouvoir supprimer tous les objets marqués comme fait.</p>
+
+<pre><code>ctx.supprimerFait = function() {
+ var aGarder = []
+ ctx.data.forEach(function(element) {
+  if(!element.fait) { aGarder.push(element) }
+ })
+ ctx.data = aGarder
+}
+</code></pre>
+
+<p>Ici nous créons un nouveau dictionnaire <code>aGarder</code> et y ajoutons les objets dont la clé <code>fait</code> est <code>false</code>. Finalement nous remplaçons l'ancien dictionnaire <code>ctx.data</code> par <code>aGarder</code>.</p>
+
+<h3>
+<a id="tout-ensemble" class="anchor" href="#tout-ensemble" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tout ensemble</h3>
+
+<p>Nous avons maintenant un modèle avec les méthodes dont nous avons besoin pour le modifier. </p>
+
+<p>Le fichier <code>Modele-a-faire.js</code> resemble à ça:</p>
+
+<pre><code>module.exports = function() {
+ var ctx = this
+ ctx.data = [
+  {text: 'Manger', fait: true},
+  {text: 'Dormir', fait: false}
+ ]
+ ctx.ajouter = function(text) {
+  ctx.data.push({text: text, fait: false})
+ }
+ ctx.basculerFait = function(index) {
+  if(ctx.data[index].fait) { ctx.data[index].fait = false }
+  else { ctx.data[index].fait = true }
+ }
+ ctx.mettreAJour = function(index, text) {
+  ctx.data[index].text = text
+ }
+ ctx.supprimerFait = function() {
+  var aGarder = []
+  ctx.data.forEach(function(element) {
+   if(!element.fait) { aGarder.push(element) }
+  })
+  ctx.data = aGarder
+ }
+}
+</code></pre>
+
+<h2>
+<a id="la-vue" class="anchor" href="#la-vue" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>La vue</h2>
+
+<p>Cette partie est la plus difficile à faire proprement sans utiliser une librairie "patron" ("template" en anglais). La technique que nous allons utiliser ici consiste à créer une chaîne de caractères HTML et à l'intégrer dans la balise <code>&lt;div id="liste"&gt;</code> en remplaçant son contenu. Il n'est généralement pas recommandé de mélanger HTML et javascript de cette manière. Dans le prochain chapitre nous utiliserons une librairie "patron". Le but ici est de comprendre comment ça fonctionne et de ne pas utiliser de scriptes externes.</p>
+
+<p>Dans le dossier <code>lib</code>, créez un fichier <code>vue-a-faire.js</code> et ouvrez-le.</p>
+
+<h3>
+<a id="créer-un-élément-de-la-liste" class="anchor" href="#cr%C3%A9er-un-%C3%A9l%C3%A9ment-de-la-liste" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Créer un élément de la liste</h3>
+
+<p>Nous allons en premier créer une fonction qui renvoit un élément de la liste. Comme nous avons vu précedemment celui-ci est différent selon qu'il soit <code>fait</code> ou non et selon qu'il soit en cours de modification ou pas.  </p>
+
+<pre><code>function creerHtmlElement(element) {
+ if(element.fait) {
+  var classeFaitOuNon = 'fait'
+  var iconeBasculerFait = 'remove'
+ } else {
+  var classeFaitOuNon = 'a-faire'
+  var iconeBasculerFait = 'ok'
+ }
+ var htmlEl = '&lt;div class="liste-element ' + classeFaitOuNon + '"&gt;'
+  + '&lt;div class="liste-element-info"&gt;'
+   + '&lt;div class="liste-element-texte"&gt;'
+    + '&lt;p&gt;' + element.text + '&lt;/p&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-modif"&gt;'
+    + '&lt;span class="glyphicon glyphicon-pencil"&gt;&lt;/span&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-statut"&gt;'
+    + '&lt;span class="glyphicon glyphicon-' + iconeBasculerFait + '"&gt;&lt;/span&gt;'
+   + '&lt;/div&gt;'
+  + '&lt;/div&gt;'
+
+ if(element.maj) {
+  htmlEl = htmlEl + '&lt;div class="liste-element-maj"&gt;'
+   + '&lt;div class="liste-element-maj-input"&gt;'
+    + '&lt;input class="form-control" id="liste-element-maj-input" type="text"&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-maj-bouton"&gt;'
+    + '&lt;button class="btn btn-primary" id="liste-element-maj-bouton"&gt;OK&lt;/button&gt;'
+   + '&lt;/div&gt;'
+  + '&lt;/div&gt;'
+ }
+
+ return htmlEl + '&lt;/div&gt;'
+}
+</code></pre>
+
+<p>Nous créons deux variables qui seront différentes si la chose a été faite ou pas:</p>
+
+<ul>
+<li>
+<code>classeFaitOuNon</code>: la classe CSS qui définit le fond de couleur de la <code>&lt;div&gt;</code>
+</li>
+<li>
+<code>iconeBasculerFait</code>: l'icône Bootstrap du bouton</li>
+</ul>
+
+<p>Puis nous créons la chaîne de caractères HTML en incluant la clé <code>text</code> de l'élément. C'est la partie <code>element.text</code>.</p>
+
+<p>Si l'élément est en cours de mise à jour, nous ajoutons une <code>&lt;div class="liste-element-maj"&gt;</code>.</p>
+
+<p>Finalement la fonction retourne la chaîne de caractères HTML ainsi créée.</p>
+
+<h3>
+<a id="créer-la-liste" class="anchor" href="#cr%C3%A9er-la-liste" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Créer la liste</h3>
+
+<p>Notre prochaine fonction crée une chaîne de caractères vide, puis y ajoute le HTML de chaque élément du dictionnaire <code>modele.data</code> en invoquant la fonction <code>creerHtmlElement()</code>. Finalement elle retourne le HTML complet de la liste.</p>
+
+<pre><code>function creerHtml(modele) {
+ var html = ''
+ modele.data.forEach(function(element) {
+  html = html + creerHtmlElement(element)
+ })
+ return html
+}
+</code></pre>
+
+<h3>
+<a id="créer-le-module" class="anchor" href="#cr%C3%A9er-le-module" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Créer le module</h3>
+
+<p>Pour finir nous créons un module exportable qui prends le <code>modele</code> comme argument, invoque <code>creerHtml()</code> pour avoir le contenu de la liste et l'ajoute à la balise <code>&lt;div id="liste"&gt;</code>.</p>
+
+<p>Le fichier <code>vue-a-faire.js</code> en entier:</p>
+
+<pre><code>module.exports = function(modele) {
+ document.getElementById('liste').innerHTML = creerHtml(modele)
+}
+
+function creerHtml(modele) {
+ var html = ''
+ modele.data.forEach(function(element) {
+  html = html + creerHtmlElement(element)
+ })
+ return html
+}
+
+function creerHtmlElement(element) {
+ if(element.fait) {
+  var classeFaitOuNon = 'fait'
+  var iconeBasculerFait = 'remove'
+ } else {
+  var classeFaitOuNon = 'a-faire'
+  var iconeBasculerFait = 'ok'
+ }
+ var htmlEl = '&lt;div class="liste-element ' + classeFaitOuNon + '"&gt;'
+  + '&lt;div class="liste-element-info"&gt;'
+   + '&lt;div class="liste-element-texte"&gt;'
+    + '&lt;p&gt;' + element.text + '&lt;/p&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-modif"&gt;'
+    + '&lt;span class="glyphicon glyphicon-pencil"&gt;&lt;/span&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-statut"&gt;'
+    + '&lt;span class="glyphicon glyphicon-' + iconeBasculerFait + '"&gt;&lt;/span&gt;'
+   + '&lt;/div&gt;'
+  + '&lt;/div&gt;'
+
+ if(element.maj) {
+  htmlEl = htmlEl + '&lt;div class="liste-element-maj"&gt;'
+   + '&lt;div class="liste-element-maj-input"&gt;'
+    + '&lt;input class="form-control" id="liste-element-maj-input" type="text"&gt;'
+   + '&lt;/div&gt;'
+   + '&lt;div class="liste-element-maj-bouton"&gt;'
+    + '&lt;button class="btn btn-primary" id="liste-element-maj-bouton"&gt;OK&lt;/button&gt;'
+   + '&lt;/div&gt;'
+  + '&lt;/div&gt;'
+ }
+
+ return htmlEl + '&lt;/div&gt;'
+}
+</code></pre>
+
+<h2>
+<a id="les-controleurs" class="anchor" href="#les-controleurs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Les controleurs</h2>
+
+<p>Nous avons un modèle et une vue, il faut maintenant faire les controleurs qui permettent de modifier le modèle en interagissant avec la vue.</p>
+
+<p>Notre page a deux parties:</p>
+
+<ul>
+<li>La liste (qui sera réactualisée à chaque modification)</li>
+<li>Le formulaire (qui ne changera pas)</li>
+</ul>
+
+<p>Quand la liste est réactualisée, il nous faudra ajouter à nouveau tous les controleurs. En revanche, pour la partie "formulaire", nous n'avons besoin d'ajouter des controleurs qu'une fois, quand la page est chargée. Il nous faut donc deux fonctions "controleurs" que nous appelerons <code>.creer()</code> et <code>.rafraichir()</code>. Comme les deux fonctions ont pour but d'interagir avec le modèle, elle prendront les deux un argument <code>modele</code>.</p>
+
+<p>Dans <code>lib</code>, créez un fichier <code>controleurs-a-faire.js</code> exportant ces deux fonctions.</p>
+
+<pre><code>exports.creer = function(modele) {
+
+} 
+
+exports.rafraichir = function(modele) {
+
+}
+</code></pre>
+
+<p>Commençons par les controleurs qui seront activés uniquement lors du chargement de la page:</p>
+
+<ul>
+<li>Ajouter quelque chose à faire</li>
+<li>Supprimer ce qui a été fait</li>
+</ul>
+
+<pre><code>exports.creer = function(modele) {
+ ajouter(modele)
+ supprimerFait(modele)
+} 
+</code></pre>
+
+<p>Par souci de clarté nous allons créer un nouveau fichier pour chaque contrôleur. Dans le dossier <code>lib</code>, créez un nouveau dossier <code>controleurs-a-faire</code> avec deux fichiers:</p>
+
+<ul>
+<li><code>ajouter.js</code></li>
+<li><code>supprimer-fait.js</code></li>
+</ul>
+
+<p>Dans <code>controleurs-a-faire.js</code>, nous ajoutons un lien vers ces deux fichiers en haut de la page.</p>
+
+<pre><code>var ajouter = require('./controleurs-a-faire/ajouter')
+var supprimerFait = require('./controleurs-a-faire/supprimer-fait')
+
+exports.creer = function(modele) {
+ ajouter(modele)
+ supprimerFait(modele)
+} 
+
+exports.rafraichir = function(modele) {
+
+}
+</code></pre>
+
+<h3>
+<a id="ajouterjs" class="anchor" href="#ajouterjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>ajouter.js</code>
+</h3>
+
+<pre><code>module.exports = function(modele) {
+ var input = document.getElementById('ajouter-input')
+ var btn = document.getElementById('ajouter-bouton')
+ btn.onclick = function() {
+  if(input.value) {
+   modele.ajouter(input.value)
+   input.value = ''
+  }
+ }
+}
+</code></pre>
+
+<p>Ce controleur utilise deux éléments de la page: la balise <code>&lt;input id="ajouter-input"&gt;</code> et le bouton <code>&lt;button id="ajouter-bouton"&gt;</code>, nous les référençons par deux variables <code>input</code> et <code>btn</code>. Quand <code>btn</code> est clické, si <code>input</code> n'est pas vide, nous invoquons la méthode <code>.ajouter()</code> du modèle. Puis <code>input</code> est remis à zéro.</p>
+
+<p>Nous avons modifié le modèle mais la liste n'est pas actualisée. Comme nous allons devoir réactualiser la liste à chaque modification, nous avons besoin d'une fonction qui s'en chargera.</p>
+
+<h3>
+<a id="rafraichirjs" class="anchor" href="#rafraichirjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>rafraichir.js</code>
+</h3>
+
+<p>Dans <code>lib/controleurs-a-faire</code>, créez un fichier <code>rafraichir.js</code>:</p>
+
+<pre><code>var vue = require('../vue-a-faire')
+var controleurs = require('../controleurs-a-faire')
+
+module.exports = function(modele) {
+ vue(modele)
+ controleurs.rafraichir(modele)
+}
+</code></pre>
+
+<p>Cette fonction invoquera la vue et rafraîchira les controleurs qui auront besoin de l'être (la fonction <code>.rafraichir()</code> de <code>controleurs-a-faire.js</code> qui est encore vide).</p>
+
+<p>Retournez à <code>ajouter.js</code> et appelez la fonction <code>.rafraichir()</code> une fois le modèle modifié.</p>
+
+<pre><code>var rafraichir = require('./rafraichir') // &lt;-- nouveau
+
+module.exports = function(modele) {
+ var input = document.getElementById('ajouter-input')
+ var btn = document.getElementById('ajouter-bouton')
+ btn.onclick = function() {
+  if(input.value) {
+   modele.ajouter(input.value)
+   input.value = ''
+   rafraichir(modele) // &lt;-- nouveau
+  }
+ }
+}
+</code></pre>
+
+<h3>
+<a id="supprimer-faitjs" class="anchor" href="#supprimer-faitjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>supprimer-fait.js</code>
+</h3>
+
+<p>Ouvrez le fichier <code>supprimer-fait.js</code> dans le dossier <code>lib/controleurs-a-faire</code>.</p>
+
+<pre><code>var rafraichir = require('./rafraichir')
+
+module.exports = function(modele) {
+ var btn = document.getElementById('supprimer-fait-bouton')
+ btn.onclick = function() {
+  modele.supprimerFait()    
+  rafraichir(modele)
+ }
+}
+</code></pre>
+
+<p>Cette fonction lie la balise <code>&lt;button id="supprimer-fait-bouton"&gt;</code> à une variable <code>btn</code>. Quand <code>btn</code> est clické, la méthode <code>.supprimerFait()</code> du modèle est invoquée puis la vue est rafraîchie.</p>
+
+<p>Passons maintenant aux controleurs de la liste. Ceux qui vont devoir être rafraîchis à chaque fois que la vue est mise à jour. </p>
+
+<h3>
+<a id="basculer-faitjs" class="anchor" href="#basculer-faitjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>basculer-fait.js</code>
+</h3>
+
+<p>Créez un fichier <code>basculer-fait.js</code> dans <code>lib/controleurs-a-faire</code></p>
+
+<pre><code>var rafraichir = require('./rafraichir')
+
+module.exports = function(modele) {
+ var btns = document.getElementsByClassName('liste-element-statut')
+ for(i=0;i&lt;btns.length;i++) {
+  var index = i
+  var btn = btns[i]
+  ajouterEvenement(modele, btn, index)
+ }
+}
+
+function ajouterEvenement(modele, btn, index) {
+ btn.addEventListener('click', function() {
+  modele.basculerFait(index)
+  rafraichir(modele)
+ })
+}
+</code></pre>
+
+<p>Cette fonction référence toutes les balises <code>&lt;div class="liste-element-statut"&gt;</code> dans une variable <code>btns</code> et pour chacune d'entre elles y ajoute un événement <code>click</code> qui invoque la méthode <code>.basculerFait()</code> du modèle puis rafraîchit la liste.</p>
+
+<p>Dans <code>controleurs-a-faire.js</code> nous ajoutons ce controleur aux deux fonctions puisqu'on en aura besoin lors du chargement de la page, <code>.creer</code>, et lorsque la liste est rafraîchie, <code>.rafraichir</code>.</p>
+
+<pre><code>var ajouter = require('./controleurs-a-faire/ajouter')
+var supprimerFait = require('./controleurs-a-faire/supprimer-fait')
+var basculerFait = require('./controleurs-a-faire/basculer-fait')  // &lt;-- nouveau
+
+exports.creer = function(modele) {
+ ajouter(modele)
+ supprimerFait(modele)
+ basculerFait(modele) // &lt;-- nouveau
+} 
+
+exports.rafraichir = function(modele) {
+ basculerFait(modele) // &lt;-- nouveau
+}
+</code></pre>
+
+<p>Il ne nous reste plus qu'à ajouter la possibilité de mettre à jour la clé <code>text</code> du modèle. Pour cela nous avons besoin d'ajouter un formulaire à l'élément de la liste que nous souhaitons modifier. </p>
+
+<h3>
+<a id="basculer-majjs" class="anchor" href="#basculer-majjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>basculer-maj.js</code>
+</h3>
+
+<p>Créez un fichier <code>basculer-maj.js</code> dans <code>lib/controleurs-a-faire</code></p>
+
+<pre><code>var rafraichir = require('./rafraichir')
+
+module.exports = function(modele) {
+ var btns = document.getElementsByClassName('liste-element-modif')
+ for(i=0;i&lt;btns.length;i++) {
+  var index = i
+  var btn = btns[i]
+  ajouterEvenement(modele, btn, index)
+ }
+}
+
+function ajouterEvenement(modele, btn, index) {
+ btn.addEventListener('click', function() {
+  if(modele.data[index].maj) { 
+   modele.data[index].maj = undefined
+   rafraichir(modele)
+  } else {
+   modele.data.forEach(function(element) { if(element.maj) { element.maj = undefined } })
+   modele.data[index].maj = true
+   rafraichir(modele)
+  }
+ })
+}
+</code></pre>
+
+<p>Ce controleur référence toutes les balises <code>&lt;div class="liste-element-modif"&gt;</code> dans une variable <code>btns</code> et pour chacune d'entre elles y ajoute un événement <code>click</code> qui ajoute une clé <code>maj</code> à l'objet du modèle que nous souhaitons mettre à jour. Pour que nous puissions n'en mettre à jour qu'un seul à la fois, les clés <code>maj</code> de tous les objets est marquée comme <code>undefined</code>. Sauf celle qui nous intéresse.</p>
+
+<p>Ajoutons le controleur à <code>controleurs-a-faire.js</code></p>
+
+<pre><code>var ajouter = require('./controleurs-a-faire/ajouter')
+var supprimerFait = require('./controleurs-a-faire/supprimer-fait')
+var basculerFait = require('./controleurs-a-faire/basculer-fait')  
+var basculerMaj = require('./controleurs-a-faire/basculer-maj') // &lt;-- nouveau
+
+exports.creer = function(modele) {
+ ajouter(modele)
+ supprimerFait(modele)
+ basculerFait(modele)
+ basculerMaj(modele) // &lt;-- nouveau
+} 
+
+exports.rafraichir = function(modele) {
+ basculerFait(modele)
+ basculerMaj(modele) // &lt;-- nouveau
+}
+</code></pre>
+
+<h3>
+<a id="mettre-a-jourjs" class="anchor" href="#mettre-a-jourjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>mettre-a-jour.js</code>
+</h3>
+
+<p>Finalement nous avons besoin d'un controleur pour mettre à jour l'objet quand le formulaire de mise à jour est visible. Créez un fichier <code>mettre-a-jour.js</code> dans <code>lib/controleurs</code>.</p>
+
+<pre><code>var rafraichir = require('./rafraichir')
+
+module.exports = function(modele) {
+ var maj = false
+ var index = null 
+ modele.data.forEach(function(element, indexElement) {
+  if(element.maj) { 
+   maj = true 
+   index = indexElement
+  }
+ })
+
+ if(maj) {
+  var input = document.getElementById('liste-element-maj-input')
+  var btn = document.getElementById('liste-element-maj-bouton')
+  btn.onclick = function() {
+   if(input.value) {
+    modele.mettreAJour(index, input.value)
+    modele.data[index].maj = undefined
+    input.value = ''
+    rafraichir(modele)
+   }
+  }
+ }
+}
+</code></pre>
+
+<p>Ce controleur vérifie si un des objets du modèle a la clé <code>maj</code> marquée <code>true</code>. Si c'est le cas, elle en garde l'index. Les balises <code>&lt;input id="liste-element-maj-input"&gt;</code> et <code>&lt;button id="liste-element-maj-bouton"&gt;</code> sont référencées par les variables <code>input</code> et <code>btn</code>. Quand <code>btn</code> est clické, si la valeur d'<code>input</code> n'est pas vide, la méthode <code>.mettreAJour()</code> du modèle est invoquée, la clé <code>maj</code> est marquée comme <code>undefined</code>, la valeur de <code>input</code> est mise à zéro et la liste rafraîchie.</p>
+
+<p>Ajoutons ce dernier controleur à <code>controleurs-a-faire.js</code></p>
+
+<pre><code>var ajouter = require('./controleurs-a-faire/ajouter')
+var supprimerFait = require('./controleurs-a-faire/supprimer-fait')
+var basculerFait = require('./controleurs-a-faire/basculer-fait')  
+var basculerMaj = require('./controleurs-a-faire/basculer-maj')
+var mettreAJour = require('./controleurs-a-faire/mettre-a-jour') // &lt;-- nouveau
+
+exports.creer = function(modele) {
+ ajouter(modele)
+ supprimerFait(modele)
+ basculerFait(modele)
+ basculerMaj(modele) 
+} 
+
+exports.rafraichir = function(modele) {
+ basculerFait(modele)
+ basculerMaj(modele)
+ mettreAJour(modele) // &lt;-- nouveau
+}
+</code></pre>
+
+<p>Il n'y a pas besoin de l'ajouter à <code>.creer()</code> puisqu'il n'y a rien à mettre à jour au moment du chargement de la page. Ceci ne peut être fait que quand <code>basculerMaj()</code> a été invoqué.</p>
+
+<h2>
+<a id="tout-mettre-ensemble" class="anchor" href="#tout-mettre-ensemble" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tout mettre ensemble</h2>
+
+<p>Dans le fichier <code>main.js</code> à la racine du dossier du projet, nous allons maintenant créer:</p>
+
+<ul>
+<li>le modèle</li>
+<li>la vue </li>
+<li>les controleurs</li>
+</ul>
+
+<pre><code>var Modele = require('./lib/Modele-a-faire')
+var vue = require('./lib/vue-a-faire')
+var controleurs = require('./lib/controleurs-a-faire')
+
+var modele = new Modele()
+vue(modele)
+controleurs.creer(modele)
+</code></pre>
+
+<p>Ouvrez le terminal dans le dossier du projet et lancez le script <code>build</code> pour créer <code>public/script.js</code> et ouvrez <code>index.html</code> dans un navigateur.</p>
+
+<p>Voilà pour la version <code>vanilla</code> de notre application. Cette approche est un peu laborieuse mais en écrivant tout le code nous-mêmes, nous avons une idée de ce qui ce passe dans une application de type MVC. Nous pouvons maintenant utiliser des scripts écrits par d'autres en connaissance de cause. C'est ce que nous allons faire dans les prochains chapitres.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Tutoriel-fullstack-js-2-vanilla-js maintained by <a href="https://github.com/idris-maps">idris-maps</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
